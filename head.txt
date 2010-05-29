@@ -68,6 +68,28 @@ img.thumb {
 	border: 2px solid #eee;
 }
 
+table.achievements td {
+	margin-bottom: 4px;
+	background-color: #ffffcc;
+}
+
+.ahicon {
+	float: left;
+	margin-right: 8px;
+}
+.pcount {
+	float: right;
+	margin: 4px 4px 4px 16px;
+	font-size: 24px;
+	padding: 4px 10px;
+	background-color: #fff;
+	border: 1px solid #cc9;
+}
+
+.pcount a {
+	color: #333;
+}
+
 </style>
 </head>
 <body>
