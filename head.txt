@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>The Eternal - <?=$title?></title>
+<style>
+
+body {
+	margin: 0;
+	background-color: #f5f5f5;
+	text-align: center;
+	font-family: Helvetica,Arial,sans-serif;
+}
+
+h1 {
+	margin-top: 0;
+	margin-bottom: 6px;
+}
+
+#navi {
+	background-color: #f0f0f0;
+	padding: 4px 10px;
+	margin-bottom: 16px;
+}
+
+#navi a {
+	color: #000000;
+}
+
+#navi a.sel {
+	text-decoration: none;
+}
+
+#main {
+	margin: 10px auto 50px auto;
+	width: 900px;
+	background-color: #fff;
+	padding: 10px;
+	text-align: left;
+	border: 1px solid #eee;
+}
+
+img {
+	border: 0;
+}
+
+#index {
+	font-size: 11px;
+	padding-left: 4px;
+	padding-right: 16px;
+}
+
+#listing {
+}
+
+div.cat {
+}
+
+div.subcat {
+	padding-left: 2em;
+}
+
+div.subcat h3 {
+	margin-left: -1em;
+}
+
+img.thumb {
+	border: 2px solid #eee;
+}
+
+</style>
+</head>
+<body>
+
+<div id="main">
+
+<h1>The Eternal - <?=$title?></h1>
+
+<div id="navi">
+	<a href="/eternal/"<? if ($sel=='photos'){ echo ' class="sel"'; }?>>Photos</a>
+	|
+	<a href="/eternal/stats/"<? if ($sel=='stats'){ echo ' class="sel"'; }?>>Stats</a>
+	|
+	<a href="/eternal/achievements/"<? if ($sel=='achievements'){ echo ' class="sel"'; }?>>Achievements</a>
+</div>
