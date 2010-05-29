@@ -5,13 +5,15 @@
 	$id = intval($id);
 	$sub_id = intval($sub_id);
 
+	if ($_GET[id] == 'rare') $id = 'rare';
+
 	$title = 'Achievements';
 	$sel = 'achievements';
 
 	include('../head.txt');
 ?>
 
-<table border="0" cellpadding="0" cellspacing="0">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
 	<tr valign="top">
 		<td>
 			<div id="index">
@@ -19,6 +21,13 @@
 	#
 	# show cats
 	#
+
+	if ($id == 'rare'){
+		echo "<b>Rarest Achievements</b><br />\n";
+	}else{
+		echo "<a href=\"./?id=rare\">Rarest Achievements</a><br />\n";
+	}
+	echo "<br />\n";
 
 	$result = db_query("SELECT * FROM guild_achievements_cats ORDER BY in_order ASC, sub_id ASC");
 	while ($row = db_fetch_hash($result)){
@@ -45,22 +54,47 @@
 
 			</div>
 		</td>
-		<td>
+		<td width="100%">
 			<div id="listing">
 
 <?
 	if ($id){
+
+		if ($id == 'rare'){
+
+			$rows = array();
+			$result = db_query("SELECT * FROM guild_achievements_key WHERE cat_id!=81 AND num_players>0 ORDER BY num_players ASC LIMIT 50");
+			while ($row = db_fetch_hash($result)){
+				$rows[] = $row;
+			}
 ?>
-	<table border="0" cellpadding="4" cellspacing="8" class="achievements">
+
+				<div style="padding: 20px; font-size: 18px; background-color: #ffffee; margin: 20px; text-align: center">
+					These achievements have been earned by the fewest players in the guild.
+				</div>
+
 <?
-		$result = db_query("SELECT * FROM guild_achievements_key WHERE cat_id=$id AND sub_id=$sub_id ORDER BY num_players DESC");
-		while ($row = db_fetch_hash($result)){
+
+		}else{
+			$rows = array();
+			$result = db_query("SELECT * FROM guild_achievements_key WHERE cat_id=$id AND sub_id=$sub_id ORDER BY num_players DESC");
+			while ($row = db_fetch_hash($result)){
+				$rows[] = $row;
+			}
+		}
+
+
+?>
+	<table border="0" cellpadding="4" cellspacing="8" class="achievements" width="100%">
+<?
+		foreach ($rows as $row){
+			$row[icon] = str_replace("'", '-', $row[icon]);
 ?>
 		<tr valign="top">
-			<td>
+			<td onclick="toggle(<?=$row[id]?>);" style="cursor: hand; cursor: pointer">
 				<div class="ahicon"><img src="http://static.wowhead.com/images/wow/icons/medium/<?=$row[icon]?>.jpg" width="36" height="36" /></div>
 
-				<div class="pcount"><a href="#" onclick="toggle(<?=$row[id]?>); return false;"><?=$row[num_players]?></a></div>
+				<div class="pcount"><?=$row[num_players]?></div>
 
 				<b><?=$row[title]?></b><br />
 				<?=$row[desc]?>
@@ -71,6 +105,12 @@
 		}
 ?>
 	</table>
+<?
+	}else{
+?>
+				<div style="padding: 40px; font-size: 22px; background-color: #ffffcc; margin: 20px; text-align: center">
+					Choose a category on the left to see which achievements the guild has earned.
+				</div>
 <?
 	}
 ?>
@@ -94,6 +134,10 @@ function toggle(id){
 	}
 
 	keys_open[id] = 1;
+
+	var d = document.getElementById('expand-'+id);
+	d.innerHTML = '...';
+	d.style.display = 'block';
 
 	ajaxify('api.php', {id: id}, function(o){
 
