@@ -91,6 +91,12 @@ table.achievements td {
 	color: #333;
 }
 
+div.tblblock {
+	margin: 7px;
+	padding: 10px;
+	background-color: #ffffee;
+}
+
 </style>
 </head>
 <body>

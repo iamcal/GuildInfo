@@ -22,10 +22,15 @@
 	# show cats
 	#
 
-	if ($id == 'rare'){
+	if ($id === 'rare'){
 		echo "<b>Rarest Achievements</b><br />\n";
 	}else{
 		echo "<a href=\"./?id=rare\">Rarest Achievements</a><br />\n";
+	}
+	if ($_GET[id] === 'firsts'){
+		echo "<b>Guild Firsts</b><br />\n";
+	}else{
+		echo "<a href=\"./?id=firsts\">Guild Firsts</a><br />\n";
 	}
 	echo "<br />\n";
 
@@ -106,6 +111,85 @@
 ?>
 	</table>
 <?
+	}else if ($_GET[id] == 'firsts'){
+
+?>
+
+	<p>These players have earned the most 'guild first' achievements:</p>
+
+	<table border="0" cellpadding="4" cellspacing="8">
+<?
+
+		$result = db_query("SELECT player, COUNT(first) AS num FROM guild_achievements_data WHERE first=1 GROUP BY player ORDER BY num DESC");
+		while ($row = db_fetch_hash($result)){
+?>
+		<tr>
+			<td><a href="./?p=<?=urlencode($row[player])?>"><?=HtmlSpecialChars($row[player])?></a></td>
+			<td><?=$row[num]?></td>
+		</tr>
+<?
+		}
+?>
+	</table>
+
+<?
+	}else if ($_GET[p]){
+
+		$player_enc = AddSlashes($_GET[p]);
+		$p_html = HtmlSpecialChars($_GET[p]);
+		$p_url = UrlEncode($_GET[p]);
+		$a_url = "http://www.wowarmory.com/character-achievements.xml?r=Hyjal&cn={$p_url}&gn=The+Eternal";
+
+		$result = db_query("SELECT * FROM guild_achievements_data WHERE player='$player_enc' AND first=1 ORDER BY `when` DESC");
+		$firsts_num = db_num_rows($result);
+
+		if ($firsts_num){
+?>
+	<div class="tblblock"><?=$p_html?> was the first player in the guild to get these <?=$firsts_num?> achievements:</div>
+
+	<table border="0" cellpadding="4" cellspacing="8" class="achievements" width="100%">
+<?
+			while ($temp = db_fetch_hash($result)){
+				$row = db_fetch_hash(db_query("SELECT * FROM guild_achievements_key WHERE id=$temp[id]"));
+				$row[icon] = str_replace("'", '-', $row[icon]);
+?>
+		<tr valign="top">
+			<td>
+				<div class="ahicon"><img src="http://static.wowhead.com/images/wow/icons/medium/<?=$row[icon]?>.jpg" width="36" height="36" /></div>
+
+				<b><?=$row[title]?></b><br />
+				<?=$row[desc]?><br />
+				<i>Earned <?=date('Y/m/d',$temp[when])?></i>
+			</td>
+		</tr>
+<?
+			}
+?>
+	</table>
+<?
+		}
+
+
+		list($c) = db_fetch_list(db_query("SELECT COUNT(*) FROM guild_achievements_data WHERE player='$player_enc' AND first=0 ORDER BY `when` DESC"));
+
+		echo "<div class=\"tblblock\">";
+
+		if ($firsts_num){
+			if ($c){
+				echo "$p_html also has <a href=\"$a_url\">$c other achievements</a>.";
+			}else{
+				echo "$p_html doesn't have any other achievements.";
+			}
+		}else{
+			if ($c){
+				echo "$p_html has <a href=\"$a_url\">$c other achievements</a>.";
+			}else{
+				echo "$p_html doesn't have any achievements.";
+			}
+		}
+
+		echo "</div>";
+
 	}else{
 ?>
 				<div style="padding: 40px; font-size: 22px; background-color: #ffffcc; margin: 20px; text-align: center">
@@ -141,7 +225,7 @@ function toggle(id){
 
 	ajaxify('api.php', {id: id}, function(o){
 
-		console.log(o);
+		//console.log(o);
 		var d = document.getElementById('expand-'+id);
 
 		d.innerHTML = o;
