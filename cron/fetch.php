@@ -16,7 +16,7 @@
 	# grab possible achievements
 	#
 
-	echo "Catalog...";
+	echo "Achievements Catalog...";
 
 	$ret = bnet_fetch_safe($cfg['guild_region'], '/data/character/achievements', 10);
 	if (!$ret['ok']){
@@ -73,7 +73,7 @@
 
 	#######################################################################################################
 
-	echo "Roster...";
+	echo "Guild Roster...";
 
 	$players = array();
 
@@ -91,38 +91,75 @@
 		$players[] = $member['character']['name'];
 	}
 
-	echo "ok\n";
+	$num = count($players);
+
+	echo "ok ($num)\n";
 
 
 	#######################################################################################################
 
-	echo "Achievements...";
+	echo "Player Data...";
 
-	$hashes = array();
-	#$players = array_slice($players, 0, 5);
+	$a_hashes = array();
+	$q_hashes = array();
+	$players = array_slice($players, 0, 5);
+
+	$q_catalog = array();
+
+	$done = 0;
+	$total = count($players);
+
+	output_progress($done, $total, 0);
 
 	foreach ($players as $player){
 
 		$stats = fetch_player($player);
 
-		foreach ($stats as $id => $ts){
-			$hashes[] = array(
+		foreach ($stats['a'] as $id => $ts){
+			$a_hashes[] = array(
 				'id' => intval($id),
 				'player' => AddSlashes($player),
 				'when' => intval($ts),
 			);
 			$catalog[$id]['num_players']++;
 		}
+
+		foreach ($stats['q'] as $id){
+			$q_hashes[] = array(
+				'id' => intval($id),
+				'player' => AddSlashes($player),
+			);
+			$q_catalog[$id]['num_players']++;
+		}
+
+		$done++;
+		output_progress($done, $total);
 	}
 
 	db_query("DELETE FROM guild_achievements_data");
-	db_insert_multi('guild_achievements_data', $hashes, 1000);
+	db_insert_multi('guild_achievements_data', $a_hashes, 1000);
+
+	db_query("DELETE FROM guild_quests_data");
+	db_insert_multi('guild_quests_data', $q_hashes, 1000);
+
+	output_progress(0, 0); # this will delete it
 
 	echo "ok\n";
 
+	function output_progress($x, $y, $clear=1){
+
+		if ($clear){
+			echo str_repeat(chr(8), 12);
+		}
+
+		if ($y){
+			echo ' '.str_pad($x, 5, ' ', STR_PAD_LEFT).'/'.str_pad($y, 5, ' ', STR_PAD_RIGHT);
+		}
+	}
+
 	#######################################################################################################
 
-	echo "Updating catalog...";
+	echo "Updating Achievements Catalog...";
 
 	#
 	# store the catalog
@@ -149,6 +186,21 @@
 	echo "ok\n";
 
 	#######################################################################################################
+
+	echo "Updating Quests Catalog...";
+
+	foreach ($q_catalog as $k => $row){
+		db_insert_dupe('guild_quests_key', array(
+			'id'		=> intval($k),
+			'num_players'	=> intval($row['num_players']),
+		), array(
+			'num_players'	=> intval($row['num_players']),
+		));
+	}
+
+	echo "ok\n";
+
+	#######################################################################################################
 	#######################################################################################################
 	#######################################################################################################
 
@@ -156,7 +208,7 @@
 
 		$realm_stub = str_replace("%27", "'", rawurlencode($GLOBALS['cfg']['guild_realm']));
 		$name_stub = str_replace("%27", "'", rawurlencode($player));
-		$url = "/character/{$realm_stub}/{$name_stub}?fields=achievements";
+		$url = "/character/{$realm_stub}/{$name_stub}?fields=achievements,quests";
 
 		$ret = bnet_fetch_safe($GLOBALS['cfg']['guild_region'], $url, 1);
 		if (!$ret['ok']){
@@ -165,11 +217,18 @@
 			exit;
 		}
 
-		$out = array();
+		$out = array(
+			'a'	=> array(),
+			'q'	=> array(),
+		);
 
 		foreach ($ret['data']['achievements']['achievementsCompleted'] as $k => $v){
 
-			$out[$v] = substr($ret['data']['achievements']['achievementsCompletedTimestamp'][$k], 0, -3);
+			$out['a'][$v] = substr($ret['data']['achievements']['achievementsCompletedTimestamp'][$k], 0, -3);
+		}
+
+		foreach ($ret['data']['quests'] as $id){
+			$out['q'][] = $id;
 		}
 
 		return $out;
