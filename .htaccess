@@ -4,3 +4,4 @@ DirectoryIndex index.php
 
 RewriteEngine on
 RewriteRule ^stats/$		stats.php	[L]
+RewriteRule ^achievements/$	achievements.php	[L]
