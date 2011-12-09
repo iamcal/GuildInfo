@@ -7,7 +7,8 @@
 
 	include(dirname(__FILE__).'/../include/init.php');
 
-	loadlib('bnet');
+	include($include_dir.'bnet.php');
+	include($include_dir.'curl.php');
 
 	#######################################################################################################
 
@@ -17,7 +18,7 @@
 
 	echo "Catalog...";
 
-	$ret = bnet_fetch_safe('us', '/data/character/achievements', 10);
+	$ret = bnet_fetch_safe($cfg['guild_region'], '/data/character/achievements', 10);
 	if (!$ret['ok']){
 		print_r($ret);
 		exit;
@@ -76,7 +77,10 @@
 
 	$players = array();
 
-	$ret = bnet_fetch_safe('us', '/guild/hyjal/the%20eternal?fields=members', 1);
+	$realm_stub = str_replace("%27", "'", rawurlencode($GLOBALS['cfg']['guild_realm']));
+	$guild_stub = str_replace("%27", "'", rawurlencode($GLOBALS['cfg']['guild_name']));
+
+	$ret = bnet_fetch_safe($cfg['guild_region'], "/guild/{$realm_stub}/{$guild_stub}?fields=members", 1);
 	if (!$ret['ok']){
 		print_r($ret);
 		exit;
@@ -150,10 +154,11 @@
 
 	function fetch_player($player){
 
+		$realm_stub = str_replace("%27", "'", rawurlencode($GLOBALS['cfg']['guild_realm']));
 		$name_stub = str_replace("%27", "'", rawurlencode($player));
-		$url = "/character/hyjal/{$name_stub}?fields=achievements";
+		$url = "/character/{$realm_stub}/{$name_stub}?fields=achievements";
 
-		$ret = bnet_fetch_safe('us', $url, 1);
+		$ret = bnet_fetch_safe($GLOBALS['cfg']['guild_region'], $url, 1);
 		if (!$ret['ok']){
 			if ($ret['req']['status'] == 404) return array();
 			print_r($ret);
