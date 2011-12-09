@@ -1,10 +1,10 @@
 <?
-	include('../../include/init.php');
+	include('include/init.php');
 
 	$title = 'Stats';
 	$sel = 'stats';
 
-	include('../head.txt');
+	include('head.txt');
 
 	if ($_GET[id]){
 
@@ -83,5 +83,5 @@
 	}
 
 
-	include('../foot.txt');
+	include('foot.txt');
 ?>

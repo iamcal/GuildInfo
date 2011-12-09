@@ -1,5 +1,5 @@
 <?
-	include('../../include/init.php');
+	include('include/init.php');
 
 	list($id, $sub_id) = explode('-', $_GET[id]);
 	$id = intval($id);
@@ -10,7 +10,7 @@
 	$title = 'Achievements';
 	$sel = 'achievements';
 
-	include('../head.txt');
+	include('head.txt');
 ?>
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -267,5 +267,5 @@ function ajaxify(url, args, handler){
 
 
 <?
-	include('../foot.txt');
+	include('foot.txt');
 ?>
