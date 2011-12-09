@@ -111,4 +111,6 @@ div.tblblock {
 	<a href="<?=$cfg[root_url]?>stats/"<? if ($sel=='stats'){ echo ' class="sel"'; }?>>Stats</a>
 	|
 	<a href="<?=$cfg[root_url]?>achievements/"<? if ($sel=='achievements'){ echo ' class="sel"'; }?>>Achievements</a>
+	|
+	<a href="<?=$cfg[root_url]?>quests/"<? if ($sel=='quests'){ echo ' class="sel"'; }?>>Quests</a>
 </div>
