@@ -37,7 +37,8 @@
 	# extract flat list of categories
 	#
 
-	$out = array();
+	$out_subs = array();
+	$out_cats = array();
 
 	foreach ($obj as $cat){
 
@@ -48,7 +49,8 @@
 				$sub_cats[$sub[0]] = $sub[1];
 			}
 
-			$out[$cat[1]] = $sub_cats;
+			$out_subs[$cat[0]] = $sub_cats;
+			$out_cats[$cat[0]] = $cat[1];
 		}
 	}
 
@@ -59,21 +61,31 @@
 
 	db_query("DELETE FROM guild_quests_cats");
 	$order = 1;
-	foreach ($out as $cat => $rows){
+	foreach ($out_subs as $cat => $rows){
+
+		db_insert('guild_quests_cats', array(
+			'id'		=> $cat,
+			'name'		=> AddSlashes($out_cats[$cat]),
+			'in_order'	=> $order,
+		));
+		$order++;
+
 		foreach ($rows as $id => $name){
 
 			db_insert('guild_quests_cats', array(
 				'id'		=> intval($id),
 				'name'		=> AddSlashes($name),
-				'cat_name'	=> AddSlashes($cat),
+				'cat_id'	=> intval($cat),
+				'cat_name'	=> AddSlashes($out_cats[$cat]),
 				'in_order'	=> $order,
 			));
-
 			$order++;
 		}
+
+		
 	}
 
-	$num = count($out);
+	$num = $order-1;
 	echo "Inserted $num cats\n";
 
 

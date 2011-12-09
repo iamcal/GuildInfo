@@ -25,17 +25,21 @@
 	}
 	echo "<br />\n";
 
-	$result = db_query("SELECT category FROM guild_quests_key GROUP BY category ORDER BY category ASC");
+	$result = db_query("SELECT * FROM guild_quests_cats ORDER BY in_order ASC");
 	while ($row = db_fetch_hash($result)){
 
-		if (!$row['category']) continue;
+		if ($row['cat_name']){
 
-		$prefix = '';
-		$url = "./?cat=".urlencode($row['category']);
+			$prefix = '&nbsp;&nbsp;&nbsp;';
+		}else{
+			$prefix = '';
+		}
 
-		$name = str_replace(' ', '&nbsp;', HtmlSpecialChars($row['category']));
+		$url = "./?cat=".urlencode($row['name']);
 
-		if ($row['category'] == $cat){
+		$name = str_replace(' ', '&nbsp;', HtmlSpecialChars($row['name']));
+
+		if ($row['name'] == $cat){
 			echo "$prefix<b>$name</b><br />";
 		}else{
 			echo "$prefix<a href=\"$url\">$name</a><br />";
