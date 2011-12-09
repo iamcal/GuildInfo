@@ -136,7 +136,7 @@
 	}else if ($_GET[p]){
 
 		$region = StrToLower($cfg['guild_region']);
-		$realm = stub($cfg['guild_realm']);
+		$realm = stub_pub($cfg['guild_realm']);
 		$name = stub($_GET['p']);
 
 		$p_html = HtmlSpecialChars($_GET['p']);

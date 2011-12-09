@@ -12,4 +12,8 @@
 	function stub($x){
 		return str_replace("%27", "'", rawurlencode(mb_strtolower($x)));
 	}
+
+	function stub_pub($x){
+		return rawurlencode(str_replace(' ', '-', str_replace("'", '', mb_strtolower($x))));
+	}
 ?>
