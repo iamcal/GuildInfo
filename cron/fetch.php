@@ -190,6 +190,8 @@
 
 	echo "Updating Quests Catalog...";
 
+	db_query("UPDATE guild_quests_key SET num_players=0");
+
 	foreach ($q_catalog as $k => $row){
 		db_insert_dupe('guild_quests_key', array(
 			'id'		=> intval($k),
