@@ -1,6 +1,6 @@
 <ul>
 <?
-	include('../../include/init.php');
+	include('include/init.php');
 
 	$id = intval($_POST[id]);
 

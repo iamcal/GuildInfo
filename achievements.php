@@ -223,7 +223,7 @@ function toggle(id){
 	d.innerHTML = '...';
 	d.style.display = 'block';
 
-	ajaxify('api.php', {id: id}, function(o){
+	ajaxify('./api.php', {id: id}, function(o){
 
 		//console.log(o);
 		var d = document.getElementById('expand-'+id);

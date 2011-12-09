@@ -3,5 +3,6 @@ php_value memory_limit 512M
 DirectoryIndex index.php
 
 RewriteEngine on
-RewriteRule ^stats/$		stats.php	[L]
-RewriteRule ^achievements/$	achievements.php	[L]
+RewriteRule ^stats/$			stats.php		[L]
+RewriteRule ^achievements/$		achievements.php	[L]
+RewriteRule ^achievements/api.php$	achievements_api.php	[L]
