@@ -25,19 +25,32 @@
 	}
 	echo "<br />\n";
 
+
+	#
+	# only show cats which have some quests
+	#
+
+        $q_counts = array();
+        $result = db_query("SELECT category, COUNT(id) AS num FROM guild_quests_key WHERE num_players>0 GROUP BY category");
+        while ($row = db_fetch_hash($result)){
+                $q_counts[$row['category']] = $row['num'];
+        }
+
+
 	$result = db_query("SELECT * FROM guild_quests_cats ORDER BY in_order ASC");
 	while ($row = db_fetch_hash($result)){
 
-		if ($row['cat_name']){
+		$url = "./?cat=".urlencode($row['name']);
+		$name = str_replace(' ', '&nbsp;', HtmlSpecialChars($row['name']));
 
-			$prefix = '&nbsp;&nbsp;&nbsp;';
-		}else{
-			$prefix = '';
+		if (!$row['cat_name']){
+			echo "$name<br />";
+			continue;
 		}
 
-		$url = "./?cat=".urlencode($row['name']);
+		if (!$q_counts[$row['name']]) continue;
 
-		$name = str_replace(' ', '&nbsp;', HtmlSpecialChars($row['name']));
+		$prefix = '&nbsp;&nbsp;&nbsp;';
 
 		if ($row['name'] == $cat){
 			echo "$prefix<b>$name</b><br />";

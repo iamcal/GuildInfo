@@ -56,6 +56,18 @@
 
 
 	#
+	# get count of known, completed quests in each cat
+	#
+
+	$q_counts = array();
+
+	$result = db_query("SELECT category, COUNT(id) AS num FROM guild_quests_key WHERE num_players>0 GROUP BY category");
+	while ($row = db_fetch_hash($result)){
+		$q_counts[$row['category']] = $row['num'];
+	}
+
+
+	#
 	# insert into DB
 	#
 
@@ -67,6 +79,7 @@
 			'id'		=> $cat,
 			'name'		=> AddSlashes($out_cats[$cat]),
 			'in_order'	=> $order,
+			'num_quests'	=> intval($q_counts[$out_cats[$cat]]),
 		));
 		$order++;
 
@@ -78,12 +91,16 @@
 				'cat_id'	=> intval($cat),
 				'cat_name'	=> AddSlashes($out_cats[$cat]),
 				'in_order'	=> $order,
+				'num_quests'	=> intval($q_counts[$name]),
 			));
 			$order++;
 		}
 
 		
 	}
+
+
+
 
 	$num = $order-1;
 	echo "Inserted $num cats\n";
