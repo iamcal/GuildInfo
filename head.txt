@@ -106,9 +106,9 @@ div.tblblock {
 <h1>The Eternal - <?=$title?></h1>
 
 <div id="navi">
-	<a href="/eternal/"<? if ($sel=='photos'){ echo ' class="sel"'; }?>>Photos</a>
+	<a href="<?=$cfg[root_url]?>"<? if ($sel=='photos'){ echo ' class="sel"'; }?>>Photos</a>
 	|
-	<a href="/eternal/stats/"<? if ($sel=='stats'){ echo ' class="sel"'; }?>>Stats</a>
+	<a href="<?=$cfg[root_url]?>stats/"<? if ($sel=='stats'){ echo ' class="sel"'; }?>>Stats</a>
 	|
-	<a href="/eternal/achievements/"<? if ($sel=='achievements'){ echo ' class="sel"'; }?>>Achievements</a>
+	<a href="<?=$cfg[root_url]?>achievements/"<? if ($sel=='achievements'){ echo ' class="sel"'; }?>>Achievements</a>
 </div>

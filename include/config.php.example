@@ -1,0 +1,6 @@
+<?
+	$cfg = array(
+		'root_url'	=> '/misc/GuildInfo/',
+	);
+
+?>

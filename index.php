@@ -1,4 +1,6 @@
 <?
+	include('include/init.php');
+
 	$title = 'Photos';
 	$sel = 'photos';
 
