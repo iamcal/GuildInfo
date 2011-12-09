@@ -1,6 +1,25 @@
 <?
 	$cfg = array(
-		'root_url'	=> '/misc/GuildInfo/',
+
+		#
+		# this url needs to point to the root folder of the GuildInfo install. for example:
+		#
+		# http://myguild.com/		=> '/'
+		# http://otherguild.com/info/	=> '/info/'
+		#
+		#
+
+		'root_url'	=> '/',
+
+
+		#
+		# mysql database config params. be sure to import the schema first!
+		#
+
+		'db_host'	=> 'localhost',
+		'db_user'	=> 'user',
+		'db_pass'	=> 'pass',
+		'db_name'	=> 'guildinfo',
 	);
 
 ?>
