@@ -8,4 +8,8 @@
 
 	include($include_dir.'config.php');
 	include($include_dir.'db.php');
+
+	function stub($x){
+		return str_replace("%27", "'", rawurlencode(mb_strtolower($x)));
+	}
 ?>

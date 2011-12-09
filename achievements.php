@@ -135,10 +135,14 @@
 <?
 	}else if ($_GET[p]){
 
-		$player_enc = AddSlashes($_GET[p]);
-		$p_html = HtmlSpecialChars($_GET[p]);
-		$p_url = UrlEncode($_GET[p]);
-		$a_url = "http://www.wowarmory.com/character-achievements.xml?r=Hyjal&cn={$p_url}&gn=The+Eternal";
+		$region = StrToLower($cfg['guild_region']);
+		$realm = stub($cfg['guild_realm']);
+		$name = stub($_GET['p']);
+
+		$p_html = HtmlSpecialChars($_GET['p']);
+		$player_enc = AddSlashes($_GET['p']);
+
+		$a_url = "http://{$region}.battle.net/wow/en/character/{$realm}/{$name}/";
 
 		$result = db_query("SELECT * FROM guild_achievements_data WHERE player='$player_enc' AND first=1 ORDER BY `when` DESC");
 		$firsts_num = db_num_rows($result);
