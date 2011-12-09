@@ -21,9 +21,7 @@
 
 	foreach ($rows as $row){
 
-		$d = date('Y/m/d', $row[when]);
-
-		echo "<li> ".HtmlSpecialChars($row[player])." ($d) </li>\n";
+		echo "<li> ".HtmlSpecialChars($row[player])."</li>\n";
 	}
 	if ($more){
 		echo "<li> <i>And $more others...</i> </li>\n";
