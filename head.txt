@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>The Eternal - <?=$title?></title>
+<title><?=$cfg[guild_name]?> - <?=$title?></title>
 <style>
 
 body {
@@ -103,7 +103,7 @@ div.tblblock {
 
 <div id="main">
 
-<h1>The Eternal - <?=$title?></h1>
+<h1><?=$cfg[guild_name]?> - <?=$title?></h1>
 
 <div id="navi">
 	<a href="<?=$cfg[root_url]?>"<? if ($sel=='photos'){ echo ' class="sel"'; }?>>Photos</a>

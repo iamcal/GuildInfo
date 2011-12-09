@@ -13,6 +13,16 @@
 
 
 		#
+		# guild info. this needs to be correct for data fetching to work.
+		# region is one of 'US', 'EU', 'KR', 'CN' or 'TW'
+		#
+
+		'guild_name'	=> 'The Eternal',
+		'guild_realm'	=> 'Hyjal',
+		'guild_region'	=> 'US',
+
+
+		#
 		# mysql database config params. be sure to import the schema first!
 		#
 
