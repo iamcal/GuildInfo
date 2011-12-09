@@ -3,7 +3,7 @@
 	# $Id$
 	#
 
-	ini_set('memory_limit', '100M');
+	ini_set('memory_limit', '300M');
 
 	include(dirname(__FILE__).'/../include/init.php');
 
@@ -98,11 +98,12 @@
 
 	#######################################################################################################
 
+	#$players = array_slice($players, 0, 5);
+
 	echo "Player Data...";
 
 	$a_hashes = array();
 	$q_hashes = array();
-	$players = array_slice($players, 0, 5);
 
 	$q_catalog = array();
 
@@ -206,21 +207,24 @@
 
 	function fetch_player($player){
 
+		$out = array(
+			'a'	=> array(),
+			'q'	=> array(),
+		);
+
 		$realm_stub = str_replace("%27", "'", rawurlencode($GLOBALS['cfg']['guild_realm']));
 		$name_stub = str_replace("%27", "'", rawurlencode($player));
 		$url = "/character/{$realm_stub}/{$name_stub}?fields=achievements,quests";
 
 		$ret = bnet_fetch_safe($GLOBALS['cfg']['guild_region'], $url, 1);
 		if (!$ret['ok']){
-			if ($ret['req']['status'] == 404) return array();
+			if ($ret['req']['status'] == 404){
+			#	echo "404 on $player\n";
+				return $out;
+			}
 			print_r($ret);
 			exit;
 		}
-
-		$out = array(
-			'a'	=> array(),
-			'q'	=> array(),
-		);
 
 		foreach ($ret['data']['achievements']['achievementsCompleted'] as $k => $v){
 
