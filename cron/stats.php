@@ -3,6 +3,8 @@
 	# $Id$
 	#
 
+die("this is broken. there is no stats API");
+
 	ini_set('memory_limit', '100M');
 
 	include(dirname(__FILE__).'/../include/init.php');
