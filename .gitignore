@@ -1,1 +1,3 @@
-include/config.php
+www/include/config.php
+www/images
+www/thumbs
