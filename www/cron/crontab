@@ -1,0 +1,5 @@
+0 0 * * * root /usr/bin/php /var/www/inebriated.us/info/cron/fetch.php && /usr/bin/php /var/www/inebriated.us/info/cron/achievements_firsts.php 2>&1 >/dev/null
+0 1 * * * root /usr/bin/php /var/www/inebriated.us/info/cron/quest_cats.php && /usr/bin/php /var/www/inebriated.us/info/cron/quests.php 2>&1 >/dev/null
+0 2 * * * root /usr/bin/php /var/www/inebriated.us/info/cron/stats.php 2>&1 >/dev/null
+0 * * * * root /usr/bin/php /var/www/inebriated.us/info/cron/news.php 2>&1 >/dev/null
+
