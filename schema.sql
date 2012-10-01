@@ -126,3 +126,16 @@ CREATE TABLE IF NOT EXISTS `guild_stats_key` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `guild_news`
+--
+
+CREATE TABLE IF NOT EXISTS `guild_news` (
+  `timestamp` bigint(20) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `data` text NOT NULL,
+  PRIMARY KEY  (`timestamp`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
