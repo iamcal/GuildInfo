@@ -106,7 +106,9 @@ div.tblblock {
 <h1><?=$cfg[guild_name]?> - <?=$title?></h1>
 
 <div id="navi">
-	<a href="<?=$cfg[root_url]?>"<? if ($sel=='photos'){ echo ' class="sel"'; }?>>Photos</a>
+	<a href="<?=$cfg[root_url]?>"<? if ($sel=='news'){ echo ' class="sel"'; }?>>News</a>
+	|
+	<a href="<?=$cfg[root_url]?>photos/"<? if ($sel=='photos'){ echo ' class="sel"'; }?>>Photos</a>
 	|
 	<a href="<?=$cfg[root_url]?>stats/"<? if ($sel=='stats'){ echo ' class="sel"'; }?>>Stats</a>
 	|

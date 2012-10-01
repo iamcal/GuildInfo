@@ -10,8 +10,9 @@ php_value short_open_tag on
 DirectoryIndex index.php
 
 RewriteEngine on
+RewriteRule ^photos/$			photos.php		[L]
 RewriteRule ^stats/$			stats.php		[L]
 RewriteRule ^achievements/$		achievements.php	[L]
 RewriteRule ^achievements/api.php$	achievements_api.php	[L]
 RewriteRule ^quests/$			quests.php		[L]
-RewriteRule ^quests/api.php$		quests_api.php	[L]
+RewriteRule ^quests/api.php$		quests_api.php		[L]
